@@ -11,11 +11,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by onos on 09.11.17.
  */
 
-public class RetrofitClient {
+class RetrofitClient {
 
     private static Retrofit retrofit = null;
 
-    public static Retrofit getRetrofit(String baseUrl) {
+    static Retrofit getRetrofit(String baseUrl) {
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
                     .baseUrl(baseUrl)

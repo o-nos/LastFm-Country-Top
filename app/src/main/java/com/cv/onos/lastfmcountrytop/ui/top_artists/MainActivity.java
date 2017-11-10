@@ -2,7 +2,9 @@ package com.cv.onos.lastfmcountrytop.ui.top_artists;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.view.View;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.MotionEvent;
 import android.widget.Toast;
 
 import com.cv.onos.lastfmcountrytop.R;
@@ -19,6 +21,7 @@ public class MainActivity extends BaseMVPActivity implements MainView {
 
     private MainPresenter presenter = new MainPresenter();
     private ActivityMainBinding binding;
+    private TopArtistsAdapter adapter;
 
     @Override
     protected BasePresenter getBasePresenter() {
@@ -32,11 +35,17 @@ public class MainActivity extends BaseMVPActivity implements MainView {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         binding.loadButton.setOnClickListener(v -> presenter.loadTop());
 
+        adapter = new TopArtistsAdapter();
+        RecyclerView.LayoutManager manager = new LinearLayoutManager(this,
+                LinearLayoutManager.VERTICAL, false);
+        binding.topRecyclerView.setLayoutManager(manager);
+        binding.topRecyclerView.setAdapter(adapter);
     }
 
     @Override
     public void refreshTopList(List<Artist> topArtists) {
-        binding.resultText.setText(topArtists.toString());
+        adapter.setTopArtists(topArtists);
+        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -46,9 +55,11 @@ public class MainActivity extends BaseMVPActivity implements MainView {
 
     @Override
     public void showProgress() {
+        // TODO
     }
 
     @Override
     public void hideProgress() {
+        // TODO
     }
 }

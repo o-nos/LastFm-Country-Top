@@ -26,8 +26,8 @@ class MainPresenter extends BasePresenter<MainView> {
         public void onResponse(@NonNull Call<Top> call, @NonNull Response<Top> response) {
             getMvpView().hideProgress();
             if (response.isSuccessful()) {
-                if (getMvpView() != null) {
-                    getMvpView().refreshTopList(response.body().getTopartists().getArtist());
+                if (getMvpView() != null && response.body() != null) {
+                    getMvpView().refreshTopList(response.body().getTopArtists().getArtist());
                 }
             } else {
                 int statusCode = response.code();
