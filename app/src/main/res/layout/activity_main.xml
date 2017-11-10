@@ -6,7 +6,7 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.cv.onos.lastfmcountrytop.MainActivity">
+        tools:context="com.cv.onos.lastfmcountrytop.ui.top_artists.MainActivity" >
 
         <Button
             android:id="@+id/loadButton"
