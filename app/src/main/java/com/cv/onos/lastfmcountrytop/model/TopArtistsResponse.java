@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by onos on 09.11.17.
  */
 
-public class Top {
+public class TopArtistsResponse {
 
     @SerializedName("topartists")
     @Expose
@@ -17,7 +17,4 @@ public class Top {
         return topArtists;
     }
 
-    public void setTopArtists(TopArtists topartists) {
-        this.topArtists = topartists;
-    }
 }

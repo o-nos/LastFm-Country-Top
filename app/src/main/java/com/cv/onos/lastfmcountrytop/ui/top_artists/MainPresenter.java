@@ -6,7 +6,10 @@ import android.util.Log;
 import com.cv.onos.lastfmcountrytop.api.LastFmApi;
 import com.cv.onos.lastfmcountrytop.api.LastFmService;
 import com.cv.onos.lastfmcountrytop.base.BasePresenter;
-import com.cv.onos.lastfmcountrytop.model.Top;
+import com.cv.onos.lastfmcountrytop.model.Artist;
+import com.cv.onos.lastfmcountrytop.model.TopArtistsResponse;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -19,14 +22,35 @@ import retrofit2.Response;
 class MainPresenter extends BasePresenter<MainView> {
 
     private static final String TAG = "MainPresenter";
-
+    private List<Artist> loadedTopArtists;
     private LastFmService lastFmService = LastFmApi.getLastFmService();
-    private Callback<Top> topCallback = new Callback<Top>() {
+
+    void loadTop() {
+        if (getMvpView() != null)
+            getMvpView().showProgress();
+        lastFmService.getTopArtistsByCountry("Ukraine").enqueue(topCallback);
+    }
+
+    void setLoadedTopArtists(List<Artist> loadedTopArtists) {
+        this.loadedTopArtists = loadedTopArtists;
+    }
+
+    void onArtistItemClicked(int itemPosition) {
+        if (loadedTopArtists != null) {
+            Artist chosenArtist = loadedTopArtists.get(itemPosition);
+            if (getMvpView() != null) {
+                getMvpView().showArtistScreen(chosenArtist.getName());
+            }
+
+        }
+    }
+
+    private Callback<TopArtistsResponse> topCallback = new Callback<TopArtistsResponse>() {
         @Override
-        public void onResponse(@NonNull Call<Top> call, @NonNull Response<Top> response) {
-            getMvpView().hideProgress();
+        public void onResponse(@NonNull Call<TopArtistsResponse> call, @NonNull Response<TopArtistsResponse> response) {
             if (response.isSuccessful()) {
                 if (getMvpView() != null && response.body() != null) {
+                    getMvpView().hideProgress();
                     getMvpView().refreshTopList(response.body().getTopArtists().getArtist());
                 }
             } else {
@@ -36,7 +60,7 @@ class MainPresenter extends BasePresenter<MainView> {
         }
 
         @Override
-        public void onFailure(@NonNull Call<Top> call, @NonNull Throwable t) {
+        public void onFailure(@NonNull Call<TopArtistsResponse> call, @NonNull Throwable t) {
             Log.e(TAG, "onFailure: " + t.getMessage(), t);
             if (getMvpView() != null) {
                 getMvpView().hideProgress();
@@ -44,12 +68,5 @@ class MainPresenter extends BasePresenter<MainView> {
             }
         }
     };
-
-
-    void loadTop() {
-        getMvpView().showProgress();
-        lastFmService.getTopArtistsByCountry("Ukraine").enqueue(topCallback);
-    }
-
 
 }

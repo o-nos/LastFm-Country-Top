@@ -13,8 +13,8 @@ public abstract class BaseMVPActivity extends AppCompatActivity implements BaseV
 
     @SuppressWarnings("unchecked")
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onStart() {
+        super.onStart();
         getBasePresenter().attachView(this);
     }
 

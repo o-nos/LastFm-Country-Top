@@ -1,10 +1,11 @@
 package com.cv.onos.lastfmcountrytop.ui.top_artists;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.MotionEvent;
+import android.view.View;
 import android.widget.Toast;
 
 import com.cv.onos.lastfmcountrytop.R;
@@ -12,8 +13,11 @@ import com.cv.onos.lastfmcountrytop.base.BaseMVPActivity;
 import com.cv.onos.lastfmcountrytop.base.BasePresenter;
 import com.cv.onos.lastfmcountrytop.databinding.ActivityMainBinding;
 import com.cv.onos.lastfmcountrytop.model.Artist;
+import com.cv.onos.lastfmcountrytop.ui.artist_page.ArtistPageActivity;
 
 import java.util.List;
+
+import static com.cv.onos.lastfmcountrytop.ui.artist_page.ArtistPageActivity.ARGS_ARTIST_NAME;
 
 public class MainActivity extends BaseMVPActivity implements MainView {
 
@@ -35,7 +39,10 @@ public class MainActivity extends BaseMVPActivity implements MainView {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         binding.loadButton.setOnClickListener(v -> presenter.loadTop());
 
-        adapter = new TopArtistsAdapter();
+        adapter = new TopArtistsAdapter(view ->
+                presenter.onArtistItemClicked(
+                binding.topRecyclerView.getChildLayoutPosition(view)));
+
         RecyclerView.LayoutManager manager = new LinearLayoutManager(this,
                 LinearLayoutManager.VERTICAL, false);
         binding.topRecyclerView.setLayoutManager(manager);
@@ -44,6 +51,7 @@ public class MainActivity extends BaseMVPActivity implements MainView {
 
     @Override
     public void refreshTopList(List<Artist> topArtists) {
+        presenter.setLoadedTopArtists(topArtists);
         adapter.setTopArtists(topArtists);
         adapter.notifyDataSetChanged();
     }
@@ -61,5 +69,14 @@ public class MainActivity extends BaseMVPActivity implements MainView {
     @Override
     public void hideProgress() {
         // TODO
+    }
+
+
+
+    @Override
+    public void showArtistScreen(String artistName) {
+        Intent intent = new Intent(this, ArtistPageActivity.class);
+        intent.putExtra(ARGS_ARTIST_NAME, artistName);
+        startActivity(intent);
     }
 }

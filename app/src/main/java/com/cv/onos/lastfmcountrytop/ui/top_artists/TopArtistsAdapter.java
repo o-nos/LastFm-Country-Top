@@ -4,6 +4,7 @@ import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.cv.onos.lastfmcountrytop.R;
@@ -19,13 +20,18 @@ import java.util.List;
 public class TopArtistsAdapter extends RecyclerView.Adapter<TopArtistViewHolder> {
 
     private List<Artist> topArtists = new ArrayList<>();
+    private View.OnClickListener onArtistClickListener;
+
+    TopArtistsAdapter(View.OnClickListener onArtistClickListener) {
+        this.onArtistClickListener = onArtistClickListener;
+    }
 
     @Override
     public TopArtistViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         ViewDataBinding binding = DataBindingUtil
                 .inflate(layoutInflater, R.layout.item_artist, parent, false);
-
+        binding.getRoot().setOnClickListener(onArtistClickListener);
         return new TopArtistViewHolder(binding);
     }
 
@@ -43,4 +49,5 @@ public class TopArtistsAdapter extends RecyclerView.Adapter<TopArtistViewHolder>
     public int getItemCount() {
         return topArtists.size();
     }
+
 }

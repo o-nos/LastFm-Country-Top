@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">LastFm Country Top</string>
+    <string name="popular_artists">Popular Artists</string>
 </resources>

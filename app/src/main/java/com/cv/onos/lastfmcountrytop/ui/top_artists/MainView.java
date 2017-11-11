@@ -15,4 +15,5 @@ interface MainView extends BaseView {
 
     void onTopRequestFailure(String message);
 
+    void showArtistScreen(String artistName);
 }
