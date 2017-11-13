@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.cv.onos.lastfmcountrytop.R;
 import com.cv.onos.lastfmcountrytop.base.BaseMVPActivity;
 import com.cv.onos.lastfmcountrytop.base.BasePresenter;
@@ -66,6 +67,14 @@ public class ArtistPageActivity extends BaseMVPActivity implements ArtistPageVie
     public void showArtistTopAlbums(List<Album> albums) {
         adapter.setTopAlbums(albums);
         adapter.notifyDataSetChanged();
+
+        // TODO fix bug with null image array
+        if (albums != null && !albums.isEmpty()) {
+            Glide.with(this)
+                    .load(albums.get(0).getArtist().getArtistImageUrl())
+                    .into(binding.artistImageView);
+        }
+
     }
 
     @Override
@@ -88,6 +97,5 @@ public class ArtistPageActivity extends BaseMVPActivity implements ArtistPageVie
         }
         return super.onOptionsItemSelected(item);
     }
-
 
 }

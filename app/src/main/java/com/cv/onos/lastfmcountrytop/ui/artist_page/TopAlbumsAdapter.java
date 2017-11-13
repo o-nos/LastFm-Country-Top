@@ -1,11 +1,8 @@
 package com.cv.onos.lastfmcountrytop.ui.artist_page;
 
-import android.view.View;
-
 import com.cv.onos.lastfmcountrytop.R;
 import com.cv.onos.lastfmcountrytop.base.BaseRecyclerViewAdapter;
 import com.cv.onos.lastfmcountrytop.model.Album;
-import com.cv.onos.lastfmcountrytop.model.Artist;
 
 import java.util.ArrayList;
 import java.util.List;

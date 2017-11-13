@@ -34,7 +34,7 @@ public class Album {
 
     public String getAlbumImageUrl() {
         if (image != null && !image.isEmpty()) {
-            return image.get(0).getUrl();
+            return image.get(image.size() - 1).getUrl();
         } else {
             return null;
         }
