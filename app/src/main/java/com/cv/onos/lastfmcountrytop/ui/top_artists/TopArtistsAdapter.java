@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.cv.onos.lastfmcountrytop.R;
+import com.cv.onos.lastfmcountrytop.base.BaseRecyclerViewAdapter;
+import com.cv.onos.lastfmcountrytop.base.BaseViewHolder;
 import com.cv.onos.lastfmcountrytop.model.Artist;
 
 import java.util.ArrayList;
@@ -17,32 +19,26 @@ import java.util.List;
  * Created by onos on 10.11.17.
  */
 
-public class TopArtistsAdapter extends RecyclerView.Adapter<TopArtistViewHolder> {
+public class TopArtistsAdapter extends BaseRecyclerViewAdapter {
 
     private List<Artist> topArtists = new ArrayList<>();
-    private View.OnClickListener onArtistClickListener;
 
     TopArtistsAdapter(View.OnClickListener onArtistClickListener) {
-        this.onArtistClickListener = onArtistClickListener;
+        setOnItemClickListener(onArtistClickListener);
     }
 
     @Override
-    public TopArtistViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        ViewDataBinding binding = DataBindingUtil
-                .inflate(layoutInflater, R.layout.item_artist, parent, false);
-        binding.getRoot().setOnClickListener(onArtistClickListener);
-        return new TopArtistViewHolder(binding);
+    protected Object getObjForPosition(int position) {
+        return topArtists.get(position);
+    }
+
+    @Override
+    protected int getLayoutIdForPosition(int position) {
+        return R.layout.item_artist;
     }
 
     void setTopArtists(List<Artist> topArtists) {
         this.topArtists = topArtists;
-    }
-
-    @Override
-    public void onBindViewHolder(TopArtistViewHolder holder, int position) {
-        final Artist temperatureData = topArtists.get(position);
-        holder.bind(temperatureData);
     }
 
     @Override

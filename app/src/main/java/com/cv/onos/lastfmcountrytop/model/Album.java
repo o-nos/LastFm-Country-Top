@@ -1,5 +1,7 @@
 package com.cv.onos.lastfmcountrytop.model;
 
+import android.databinding.InverseMethod;
+
 import java.util.List;
 
 import com.google.gson.annotations.Expose;
@@ -30,6 +32,13 @@ public class Album {
     @Expose
     private List<Image> image = null;
 
+    public String getAlbumImageUrl() {
+        if (image != null && !image.isEmpty()) {
+            return image.get(0).getUrl();
+        } else {
+            return null;
+        }
+    }
 
     public String getName() {
         return name;

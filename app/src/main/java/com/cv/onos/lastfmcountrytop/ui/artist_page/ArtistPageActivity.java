@@ -3,6 +3,8 @@ package com.cv.onos.lastfmcountrytop.ui.artist_page;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -21,6 +23,7 @@ public class ArtistPageActivity extends BaseMVPActivity implements ArtistPageVie
 
     private ArtistPagePresenter presenter = new ArtistPagePresenter();
     private ActivityArtistPageBinding binding;
+    private TopAlbumsAdapter adapter;
 
     @Override
     protected BasePresenter getBasePresenter() {
@@ -35,14 +38,24 @@ public class ArtistPageActivity extends BaseMVPActivity implements ArtistPageVie
         String artistName = getIntent().getStringExtra(ARGS_ARTIST_NAME);
         presenter.loadArtistInfoAndAlbums(artistName);
 
+        setSupportActionBar(binding.toolbar);
+        binding.collapsingToolbarLayout.setTitle(artistName);
+
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setTitle(artistName);
+            getSupportActionBar().setHomeButtonEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
+        adapter = new TopAlbumsAdapter();
+
+        RecyclerView.LayoutManager manager = new LinearLayoutManager(this,
+                LinearLayoutManager.VERTICAL, false);
+        binding.topAlbumsRecyclerView.setLayoutManager(manager);
+        binding.topAlbumsRecyclerView.setAdapter(adapter);
 
     }
+
 
     @Override
     public void onAlbumsRequestRequestFailure(String message) {
@@ -51,7 +64,8 @@ public class ArtistPageActivity extends BaseMVPActivity implements ArtistPageVie
 
     @Override
     public void showArtistTopAlbums(List<Album> albums) {
-
+        adapter.setTopAlbums(albums);
+        adapter.notifyDataSetChanged();
     }
 
     @Override
