@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/LastFmCountryTop.iml" filepath="$PROJECT_DIR$/LastFmCountryTop.iml" />
+      <module fileurl="file://$PROJECT_DIR$/LastFm-Country-Top.iml" filepath="$PROJECT_DIR$/LastFm-Country-Top.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

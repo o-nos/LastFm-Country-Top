@@ -18,6 +18,7 @@ import com.cv.onos.lastfmcountrytop.ui.artist_page.ArtistPageActivity;
 import java.util.List;
 
 import static com.cv.onos.lastfmcountrytop.ui.artist_page.ArtistPageActivity.ARGS_ARTIST_NAME;
+import static com.cv.onos.lastfmcountrytop.ui.artist_page.ArtistPageActivity.ARGS_ARTIST_PHOTO_URL;
 
 public class MainActivity extends BaseMVPActivity implements MainView {
 
@@ -71,12 +72,12 @@ public class MainActivity extends BaseMVPActivity implements MainView {
         // TODO
     }
 
-
-
     @Override
-    public void showArtistScreen(String artistName) {
+    public void showArtistScreen(String artistName, String artistPhotoUrl) {
         Intent intent = new Intent(this, ArtistPageActivity.class);
         intent.putExtra(ARGS_ARTIST_NAME, artistName);
+        intent.putExtra(ARGS_ARTIST_PHOTO_URL, artistPhotoUrl);
         startActivity(intent);
     }
+
 }

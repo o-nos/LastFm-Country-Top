@@ -39,7 +39,8 @@ class MainPresenter extends BasePresenter<MainView> {
         if (loadedTopArtists != null) {
             Artist chosenArtist = loadedTopArtists.get(itemPosition);
             if (getMvpView() != null) {
-                getMvpView().showArtistScreen(chosenArtist.getName());
+                getMvpView().showArtistScreen(chosenArtist.getName(),
+                        chosenArtist.getArtistImageUrl());
             }
 
         }

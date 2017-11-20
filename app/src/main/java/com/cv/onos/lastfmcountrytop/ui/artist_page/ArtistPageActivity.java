@@ -20,6 +20,7 @@ import java.util.List;
 public class ArtistPageActivity extends BaseMVPActivity implements ArtistPageView {
 
     public static final String ARGS_ARTIST_NAME = "args_artist_name";
+    public static final String ARGS_ARTIST_PHOTO_URL = "args_artist_photo_url";
     private static final String TAG = "ArtistPageActivity";
 
     private ArtistPagePresenter presenter = new ArtistPagePresenter();
@@ -38,6 +39,7 @@ public class ArtistPageActivity extends BaseMVPActivity implements ArtistPageVie
 
         String artistName = getIntent().getStringExtra(ARGS_ARTIST_NAME);
         presenter.loadArtistInfoAndAlbums(artistName);
+        loadArtistPhoto(getIntent().getStringExtra(ARGS_ARTIST_PHOTO_URL));
 
         setSupportActionBar(binding.toolbar);
         binding.collapsingToolbarLayout.setTitle(artistName);
@@ -57,6 +59,14 @@ public class ArtistPageActivity extends BaseMVPActivity implements ArtistPageVie
 
     }
 
+    private void loadArtistPhoto(String stringExtra) {
+        if (stringExtra != null) {
+            Glide.with(this)
+                    .load(stringExtra)
+                    .into(binding.artistImageView);
+        }
+    }
+
 
     @Override
     public void onAlbumsRequestRequestFailure(String message) {
@@ -67,14 +77,6 @@ public class ArtistPageActivity extends BaseMVPActivity implements ArtistPageVie
     public void showArtistTopAlbums(List<Album> albums) {
         adapter.setTopAlbums(albums);
         adapter.notifyDataSetChanged();
-
-        // TODO fix bug with null image array
-        if (albums != null && !albums.isEmpty()) {
-            Glide.with(this)
-                    .load(albums.get(0).getArtist().getArtistImageUrl())
-                    .into(binding.artistImageView);
-        }
-
     }
 
     @Override
