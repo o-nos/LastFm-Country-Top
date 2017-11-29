@@ -6,6 +6,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -26,6 +27,7 @@ public class ArtistPageActivity extends BaseMVPActivity implements ArtistPageVie
     private ArtistPagePresenter presenter = new ArtistPagePresenter();
     private ActivityArtistPageBinding binding;
     private TopAlbumsAdapter adapter;
+    private String artistName;
 
     @Override
     protected BasePresenter getBasePresenter() {
@@ -37,8 +39,7 @@ public class ArtistPageActivity extends BaseMVPActivity implements ArtistPageVie
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_artist_page);
 
-        String artistName = getIntent().getStringExtra(ARGS_ARTIST_NAME);
-        presenter.loadArtistInfoAndAlbums(artistName);
+        artistName = getIntent().getStringExtra(ARGS_ARTIST_NAME);
         loadArtistPhoto(getIntent().getStringExtra(ARGS_ARTIST_PHOTO_URL));
 
         setSupportActionBar(binding.toolbar);
@@ -57,6 +58,12 @@ public class ArtistPageActivity extends BaseMVPActivity implements ArtistPageVie
         binding.topAlbumsRecyclerView.setLayoutManager(manager);
         binding.topAlbumsRecyclerView.setAdapter(adapter);
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        presenter.loadArtistInfoAndAlbums(artistName);
     }
 
     private void loadArtistPhoto(String stringExtra) {
@@ -81,12 +88,14 @@ public class ArtistPageActivity extends BaseMVPActivity implements ArtistPageVie
 
     @Override
     public void showProgress() {
-
+        binding.topAlbumsRecyclerView.setVisibility(View.INVISIBLE);
+        binding.progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideProgress() {
-
+        binding.topAlbumsRecyclerView.setVisibility(View.VISIBLE);
+        binding.progressBar.setVisibility(View.GONE);
     }
 
     @Override

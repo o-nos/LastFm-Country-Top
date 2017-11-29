@@ -64,12 +64,14 @@ public class MainActivity extends BaseMVPActivity implements MainView {
 
     @Override
     public void showProgress() {
-        // TODO
+        binding.topRecyclerView.setVisibility(View.INVISIBLE);
+        binding.progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideProgress() {
-        // TODO
+        binding.topRecyclerView.setVisibility(View.VISIBLE);
+        binding.progressBar.setVisibility(View.GONE);
     }
 
     @Override
